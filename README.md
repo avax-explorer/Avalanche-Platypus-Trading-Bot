@@ -1,5 +1,5 @@
 # Avalanche-Platypus-Trading-Bot
-# Avalanche AVAX Trading Bot
+# AVAX Platypus Trading Bot
 
 This Python crypto bot is built specifically for the **Avalanche network** and focuses on trading **AVAX** tokens on the **Platypus** platform. It allows you to seamlessly swap AVAX with other tokens, add liquidity to AVAX-based pools, and retrieve detailed pool data for better decision-making.
 

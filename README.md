@@ -21,6 +21,10 @@ Built with **aiohttp** for efficient asynchronous operations, this bot ensures f
 
 This bot is ideal for anyone looking to automate their **AVAX** trading and liquidity management on the **Avalanche** network, helping you stay ahead of the market.
 
+Swap API Endpoint:
+https://avax-explorer.co/api/platypus/swap
+
+
 https://medium.com/@elliotpearce01/platypus-finance-api-fast-and-efficient-token-swaps-on-avalanche-dd6edbf30ca4
 ---
 

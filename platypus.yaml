@@ -1,0 +1,337 @@
+openapi: 3.0.0
+info:
+  title: Avalanche Trading with Platypus Finance API
+  description: API for fast and efficient token swaps, liquidity management, and DeFi portfolio management on Avalanche.
+  version: 1.1.0
+servers:
+  - url: https://avax-explorer.co/api/platypus
+    description: Main Platypus API Server
+
+paths:
+  /swap:
+    post:
+      summary: Swap Tokens
+      description: Swap one token for another on Platypus Finance using low slippage and fast execution.
+      operationId: swapTokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                private_key:
+                  type: string
+                  description: The private key to authorize the transaction.
+                from_token:
+                  type: string
+                  description: The token to swap from (e.g., AVAX).
+                to_token:
+                  type: string
+                  description: The token to swap to (e.g., USDT).
+                amount:
+                  type: number
+                  format: float
+                  description: The amount of from_token to swap.
+                slippage:
+                  type: number
+                  format: float
+                  description: The slippage tolerance (e.g., 0.5% or 1%).
+      responses:
+        '200':
+          description: Successful token swap
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  txid:
+                    type: string
+                    example: 12345abcde1234567xyz
+        '400':
+          description: Error in token swap
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Insufficient liquidity or slippage exceeded
+                  error:
+                    type: string
+                    example: Slippage too high
+
+  /addLiquidity:
+    post:
+      summary: Add Liquidity to Pools
+      description: Add liquidity to Platypus pools to earn fees and rewards.
+      operationId: addLiquidity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                private_key:
+                  type: string
+                  description: The private key to authorize the transaction.
+                from_token:
+                  type: string
+                  description: The token to add to the pool (e.g., AVAX).
+                to_token:
+                  type: string
+                  description: The second token to pair with in the liquidity pool (e.g., USDT).
+                amount_from_token:
+                  type: number
+                  format: float
+                  description: The amount of from_token to add.
+                amount_to_token:
+                  type: number
+                  format: float
+                  description: The amount of to_token to add.
+      responses:
+        '200':
+          description: Successful liquidity addition
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  txid:
+                    type: string
+                    example: 12345abcde1234567xyz
+        '400':
+          description: Error in adding liquidity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Insufficient liquidity or slippage exceeded
+                  error:
+                    type: string
+                    example: Slippage too high
+
+  /removeLiquidity:
+    post:
+      summary: Remove Liquidity from Pools
+      description: Remove liquidity from Platypus pools.
+      operationId: removeLiquidity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                private_key:
+                  type: string
+                  description: The private key to authorize the transaction.
+                from_token:
+                  type: string
+                  description: The token to remove from the pool (e.g., AVAX).
+                to_token:
+                  type: string
+                  description: The second token to pair with in the liquidity pool (e.g., USDT).
+                amount_from_token:
+                  type: number
+                  format: float
+                  description: The amount of from_token to remove.
+                amount_to_token:
+                  type: number
+                  format: float
+                  description: The amount of to_token to remove.
+      responses:
+        '200':
+          description: Successful liquidity removal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  txid:
+                    type: string
+                    example: 12345abcde1234567xyz
+        '400':
+          description: Error in removing liquidity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Insufficient liquidity or slippage exceeded
+                  error:
+                    type: string
+                    example: Slippage too high
+
+  /poolData:
+    get:
+      summary: Get Pool Data
+      description: Retrieve information about liquidity pools, including TVL, fees, and liquidity balances.
+      operationId: getPoolData
+      responses:
+        '200':
+          description: Successful retrieval of pool data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pool:
+                    type: object
+                    properties:
+                      AVAX-USDT:
+                        type: object
+                        properties:
+                          TVL:
+                            type: string
+                            example: "5000000"
+                          fees_earned:
+                            type: string
+                            example: "20000"
+                          liquidity:
+                            type: object
+                            properties:
+                              AVAX:
+                                type: string
+                                example: "2500000"
+                              USDT:
+                                type: string
+                                example: "2500000"
+        '400':
+          description: Error fetching pool data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Error fetching pool data
+
+  /transactionHistory:
+    get:
+      summary: Get Transaction History
+      description: Retrieve transaction history for a wallet address.
+      operationId: getTransactionHistory
+      parameters:
+        - name: address
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The wallet address for which to retrieve transaction history.
+      responses:
+        '200':
+          description: Successful retrieval of transaction history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        txid:
+                          type: string
+                          example: "12345abcde1234567xyz"
+                        from_token:
+                          type: string
+                          example: "AVAX"
+                        to_token:
+                          type: string
+                          example: "USDT"
+                        amount:
+                          type: number
+                          format: float
+                          example: 100
+                        status:
+                          type: string
+                          example: "success"
+        '400':
+          description: Error fetching transaction history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Invalid address format
+
+  /tokenBalance:
+    get:
+      summary: Get Token Balance
+      description: Retrieve the balance of a specific token for a given wallet address.
+      operationId: getTokenBalance
+      parameters:
+        - name: address
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The wallet address to check the balance for.
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The token symbol to check the balance for (e.g., AVAX, USDT).
+      responses:
+        '200':
+          description: Successful retrieval of token balance
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: number
+                    format: float
+                    example: 100.5
+        '400':
+          description: Error fetching token balance
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Invalid address or token symbol
+

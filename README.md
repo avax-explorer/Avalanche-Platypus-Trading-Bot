@@ -12,6 +12,8 @@ This Python crypto bot is built specifically for the **Avalanche network** and f
 
 Built with **aiohttp** for efficient asynchronous operations, this bot ensures fast execution for AVAX trading. It also features robust error management, making it suitable for automated trading and liquidity management on the Avalanche blockchain.
 
+https://www.postman.com/avaxexporer/avalanche-api/collection/rc3tb2m/avalanche-trading-with-platypus-finance-api
+
 ## Setup:
 
 1. Install dependencies: `requests` and `aiohttp`.
